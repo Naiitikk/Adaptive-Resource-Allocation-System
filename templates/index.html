@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Adaptive Resource Allocation</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div><p class="eyebrow">MULTIPROGRAMMING SYSTEMS</p><h1>Adaptive Resource Allocation</h1></div>
+    <div class="controls"><span id="connection" class="pill">Connecting...</span><button id="toggle">Pause</button><button id="reset" class="muted">Reset</button></div>
+  </header>
+  <main>
+    <section class="hero"><div><h2>Live resource control center</h2><p>Monitor workload pressure and let the allocator rebalance CPU and memory in real time.</p></div><div class="action"><strong id="action">Loading...</strong><small>Latest allocator action</small></div></section>
+    <section class="metrics">
+      <article class="metric"><span>CPU utilization</span><strong id="cpu-value">--</strong><div class="meter"><i id="cpu-meter"></i></div><small>Allocated compute share</small></article>
+      <article class="metric"><span>Memory utilization</span><strong id="memory-value">--</strong><div class="meter blue"><i id="memory-meter"></i></div><small>Allocated memory share</small></article>
+      <article class="metric"><span>Active programs</span><strong id="process-count">--</strong><small>Priority-aware workloads</small></article>
+      <article class="metric"><span>Simulation tick</span><strong id="tick">--</strong><small>One update per second</small></article>
+    </section>
+    <section class="grid">
+      <article class="panel chart-panel"><div class="panel-title"><div><h3>Utilization trend</h3><span>Last 30 allocation cycles</span></div><div class="legend"><b class="dot cpu"></b>CPU <b class="dot mem"></b>Memory</div></div><canvas id="chart" height="180"></canvas></article>
+      <article class="panel add-panel"><div class="panel-title"><div><h3>Add workload</h3><span>Introduce a competing program</span></div></div><form id="add-form"><label>Program name<input name="name" required maxlength="40" placeholder="e.g. API Gateway"></label><label>Priority <output id="priority-output">5</output><input name="priority" type="range" min="1" max="10" value="5"></label><label>CPU demand (%)<input name="cpu_demand" type="number" min="1" max="100" value="50" required></label><label>Memory demand (MB)<input name="memory_demand" type="number" min="1" max="4096" value="512" required></label><button class="primary">Add program</button><p id="form-error" class="error"></p></form></article>
+    </section>
+    <section class="panel"><div class="panel-title"><div><h3>Workload allocation</h3><span>Higher priority receives a larger fair-share weight under pressure.</span></div></div><div class="table-wrap"><table><thead><tr><th>Program</th><th>Status</th><th>Priority</th><th>CPU demand</th><th>CPU allocated</th><th>Memory demand</th><th>Memory allocated</th><th></th></tr></thead><tbody id="process-table"></tbody></table></div></section>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
